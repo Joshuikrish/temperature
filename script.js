@@ -3,37 +3,71 @@ const { createApp } = Vue;
 createApp({
   data() {
     return {
-      input: 0,
-      temperatureType: 'fahrenheit',
-      celsius: 0,
-      fahrenheit: 0,
-      kelvin: 0,
+      colors: [],
+      message:'',
+      showSuccessAlert: false,
     };
   },
   methods: {
     calculate() {
-      if (this.input<=0){
-        this.input=0
+      this.colors = []
+      this.showSuccessAlert=false
+      const usedColors = new Set() // Keep track of used colors
+      while (this.colors.length < 6) {
+        let randomColor = Math.floor(Math.random() * 16777215).toString(16);
+        let hexColor = '#' + randomColor
+        if (!usedColors.has(hexColor)) { // Check if color has already been added
+          this.colors.push(hexColor)
+          usedColors.add(hexColor)
+        }
       }
-      this.input=parseInt(this.input)
-      if (this.temperatureType === 'fahrenheit') {
-        this.fahrenheit=''
-        this.celsius = (this.input -32) *5/9;
-        this.kelvin = (this.input - 32) * 5/9 + 273.15;
+    },    
+    handleSpacebar(event) {
+      if (event.code === 'Space') {
+        // Your code to execute when the spacebar is pressed
+        this.calculate()
       }
-      else if (this.temperatureType === 'celsius') {
-        this.celsius=''
-        this.fahrenheit = (this.input * 9/5) + 32;
-        this.kelvin = (this.input + 273.15);
+    },
+    handleCopy(color){
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(color);
+        this.message='copied'+color
+        this.showSuccessAlert=true
+      } else {
+        var textarea = document.createElement('textarea');
+        textarea.value = color;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = 0;
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+          document.execCommand('copy');
+          this.message='copied'+color
+          this.showSuccessAlert=true
+        } catch (err) {
+          console.error('Could not copy text: ', err);
+        }
+        document.body.removeChild(textarea);
       }
-      else {
-        this.kelvin=''
-        this.celsius =  this.input -273.15 ;
-        this.fahrenheit = (this.input - 273.15) * 9/5 + 32;
+      
+    },
+    handleClick(event) {
+      // Check if the clicked element is a link
+      if (event.target.tagName !== 'A' && !event.target.closest('.colored')) {
+        // Your code to execute when a non-link element is clicked goes here
+       this.showSuccessAlert=false
       }
     }
   },
   mounted() {
+    document.addEventListener('click', this.handleClick);
     this.calculate();
-  }
+    document.addEventListener('keydown', this.handleSpacebar);
+  },
+  beforeUnmount() {
+    document.removeEventListener('click', this.handleClick);
+    document.removeEventListener('keydown', this.handleSpacebar);
+  },
+
 }).mount("#app");
