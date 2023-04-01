@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Color Generator</title>
+  <title>Temperature Converter</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -24,33 +24,56 @@
   <main id="app">
     <div class="container">
       <div class="row">
-        <div class="col-12 ">
-          <h1 class="text-center fw-bolder py-5">Color palette generator</h1>
-          <div v-if="showSuccessAlert" class="alert alert-success alert-d" role="alert">
-            <h4 class="alert-heading">{{message}}</h4>
-          </div>
-          <div class="colors d-flex ">
-            <div v-for="color in colors" class="colored" :id="color" @click="handleCopy(color)" class="col-2">
-              <div class="card p-2">
-                <div class="color" v-bind:style="{ backgroundColor: color }"></div>
-                <h6 class="text-center p-2 fw-bolder" id="name">{{ color }}</h6>
+        <div class="col-md-12 mx-auto">
+          <div class="border-5 px-5 ">
+        
+            <h1 class="fw-bolder mt-5">Temperature Converter</h1>
+            <form>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="Degrees">Degrees</label>
+                    <input @input="calculate" v-model="input" type="text" class="form-control" name="" id="" aria-describedby="helpId"
+                      placeholder="">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label for="Degrees">Type</label>
+
+                    <select @click="calculate" v-model="temperatureType" class="form-control" name="" id="">
+                      <option>fahrenheit</option>
+                      <option>celsius</option>
+                      <option>kelvin</option>
+                    </select>
+
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <a name="" @click="calculate" id="" class="btn btn-primary" href="#" role="button">Convert</a>
+                  </div>
+                </div>
               </div>
-            </div>
-            </div>
+            </form>
+            <p>
+              Result:
+              <span v-if="temperatureType==='fahrenheit'">
+                {{kelvin}} &#8490; 
+                {{celsius}} &#8451; 
+              </span>
+              <span v-else-if="temperatureType==='celsius'">
+                {{kelvin}} &#8490; 
+                {{fahrenheit}} &#8457; 
+              </span>
+              <span v-else>
+                {{fahrenheit}} &#8457; 
+                {{celsius}} &#8451; 
+              </span>
+            </p>
 
-          
-
-          <div class=" my-xl-5 w-100  text-center">
-            <a name="" @click="calculate" id="" class=" p-lg-3 btn btn-pruple" href="#" role="button">Generate palette</a>
           </div>
-          <p class="text-center  fw-bold">Or just press the "spacebar" to generate new palettes.</p>
 
-          <div class="text-center">
-
-            <div name="" id="" class=" text-center btn-white btn-white">
-              click to copy individual color
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -62,15 +85,15 @@
   <!-- Bootstrap JavaScript Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
     integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
+  </script>
   <!-- Vue js 3 -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-  <script src="./script.js"></script>
-
+    <script src="./script.js"></script>
+  
 </body>
 
 </html>
